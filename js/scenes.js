@@ -145,8 +145,7 @@ function drawLivingRoom(ctx, alt) {
   }
   const row1 = [['#E74C3C',11],['#3498DB',9],['#F39C12',13],['#9B59B6',10]];
   let bx = 445;
-  row1.forEach(([c,w],i) => {
-    if (alt && i === 2) { bx += w+1; return; }
+  row1.forEach(([c,w]) => {
     ctx.fillStyle=c; ctx.fillRect(bx,17,w,33);
     ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.fillRect(bx,17,2,33);
     bx+=w+1;
@@ -206,9 +205,13 @@ function drawLivingRoom(ctx, alt) {
   ctx.strokeStyle='#607D8B'; ctx.lineWidth=5; ctx.lineCap='round';
   ctx.beginPath(); ctx.moveTo(356,200); ctx.lineTo(348,338); ctx.stroke();
   ctx.fillStyle='#455A64'; rr(ctx,338,336,26,7,3); ctx.fill();
-  ctx.fillStyle=lg(ctx,336,200,382,200,[[0,'#FFF9C4'],[1,'#FFF176']]);
+  /* LAMP SHADE – D3: yellow → pink */
+  const lsC1 = alt ? '#F48FB1' : '#FFF9C4';
+  const lsC2 = alt ? '#E91E63' : '#FFF176';
+  const lsBd = alt ? '#C2185B' : '#D4AC0D';
+  ctx.fillStyle=lg(ctx,336,200,382,200,[[0,lsC1],[1,lsC2]]);
   ctx.beginPath(); ctx.moveTo(334,200); ctx.lineTo(380,200); ctx.lineTo(370,176); ctx.lineTo(344,176); ctx.closePath(); ctx.fill();
-  ctx.strokeStyle='#D4AC0D'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(334,200); ctx.lineTo(380,200); ctx.lineTo(370,176); ctx.lineTo(344,176); ctx.closePath(); ctx.stroke();
+  ctx.strokeStyle=lsBd; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(334,200); ctx.lineTo(380,200); ctx.lineTo(370,176); ctx.lineTo(344,176); ctx.closePath(); ctx.stroke();
   ctx.fillStyle=rg(ctx,357,200,0,65,[[0,'rgba(255,240,150,0.2)'],[1,'rgba(255,240,150,0)']]);
   ctx.beginPath(); ctx.arc(357,200,65,0,Math.PI*2); ctx.fill();
 
@@ -257,8 +260,8 @@ function drawBeach(ctx, alt) {
   ctx.lineTo(CW,CH); ctx.lineTo(0,CH); ctx.closePath(); ctx.fill();
 
   /* WAVES – D5 */
-  const wc1 = alt ? 'rgba(255,215,100,0.75)' : 'rgba(255,255,255,0.8)';
-  const wc2 = alt ? 'rgba(255,200,80,0.5)'   : 'rgba(255,255,255,0.5)';
+  const wc1 = 'rgba(255,255,255,0.8)';
+  const wc2 = 'rgba(255,255,255,0.5)';
   ctx.strokeStyle=wc1; ctx.lineWidth=2.5; ctx.lineCap='round';
   ctx.beginPath(); ctx.moveTo(0,CH*0.60); ctx.bezierCurveTo(100,CH*0.58,260,CH*0.615,420,CH*0.59); ctx.bezierCurveTo(450,CH*0.583,470,CH*0.60,CW,CH*0.60); ctx.stroke();
   ctx.strokeStyle=wc2; ctx.lineWidth=1.5;
@@ -294,7 +297,6 @@ function drawBeach(ctx, alt) {
     ctx.bezierCurveTo(bx+8*s,by,bx+12*s,by,bx+12*s,by); ctx.stroke();
   }
   bird(228,82); bird(258,68);
-  if(alt) bird(292,84,0.85);
 
   /* PALM TREE – D1: 3 leaves → 4 */
   const trunkY = CH*0.57;
@@ -339,8 +341,9 @@ function drawBeach(ctx, alt) {
     const a=-Math.PI+s*Math.PI/4;
     ctx.beginPath(); ctx.moveTo(172,200); ctx.lineTo(172+56*Math.cos(a),200+56*Math.sin(a)); ctx.stroke();
   }
-  /* towel */
-  ctx.fillStyle='#FF7043'; ctx.save(); ctx.rotate(-0.05); ctx.fillRect(128,268,70,38); ctx.restore();
+  /* TOWEL – D3: orange → blue */
+  const towelC = alt ? '#5C6BC0' : '#FF7043';
+  ctx.fillStyle=towelC; ctx.save(); ctx.rotate(-0.05); ctx.fillRect(128,268,70,38); ctx.restore();
 
   /* BEACH BALL – D2: red/white → blue/yellow */
   const bc1=alt?'#1565C0':'#D32F2F', bc2=alt?'#F9A825':'#FFFFFF';
@@ -359,6 +362,22 @@ function drawBeach(ctx, alt) {
     ctx.beginPath(); ctx.ellipse(fx,fy,5,9,0.3,0,Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.ellipse(fx+14,fy+5,5,9,-0.3,0,Math.PI*2); ctx.fill();
   });
+
+  /* BUCKET – D5: yellow → red */
+  const bkC1 = alt ? '#F44336' : '#FDD835';
+  const bkC2 = alt ? '#B71C1C' : '#F57F17';
+  const bkRim = alt ? '#EF9A9A' : '#FFF59D';
+  const bkHdl = alt ? '#E57373' : '#FFEE58';
+  ctx.fillStyle=lg(ctx,470,302,470,338,[[0,bkC1],[1,bkC2]]);
+  ctx.beginPath();
+  ctx.moveTo(453,302); ctx.lineTo(487,302); ctx.lineTo(480,338); ctx.lineTo(460,338); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=bkRim; ctx.fillRect(452,297,36,8);
+  ctx.strokeStyle='rgba(0,0,0,0.2)'; ctx.lineWidth=1.5;
+  ctx.beginPath();
+  ctx.moveTo(453,302); ctx.lineTo(487,302); ctx.lineTo(480,338); ctx.lineTo(460,338); ctx.closePath(); ctx.stroke();
+  ctx.strokeStyle=bkHdl; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.arc(470,299,13,Math.PI,0); ctx.stroke();
+  ctx.fillStyle='#DEB887'; ctx.beginPath(); ctx.ellipse(470,302,16,5,0,0,Math.PI); ctx.fill();
 }
 
 /* ══════════════════════════════════════════════════════════
